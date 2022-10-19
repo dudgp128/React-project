@@ -1,3 +1,4 @@
+import React from 'react';
 import TodoListItem from './TodoListItem';
 import './TodoList.scss';
 
@@ -15,4 +16,4 @@ const TodoList = ({ todos, onRemove, onChecked }) => {
     </div>
   );
 };
-export default TodoList;
+export default React.memo(TodoList);
