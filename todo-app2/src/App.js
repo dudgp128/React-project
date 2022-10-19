@@ -1,24 +1,25 @@
 import './App.css';
 import TodoTemplate from './components/TodoTemplate';
+import { useCallback, useRef, useState } from 'react';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
-import { useCallback, useRef, useState } from 'react';
 
 const App = () => {
   const [todos, setTodos] = useState([
     {
       id: 1,
-      text: '리엑트의 기초 알아보기',
-      checked: true,
+      text: '우아한 테크코스 지원하기',
+      checked: false,
     },
     {
       id: 2,
-      text: '컴포넌트 스타일링해 보기',
-      checked: true,
+      text: '네이버 블로그 성장일기 업로드하기',
+      checked: false,
     },
+
     {
       id: 3,
-      text: '일정 관리 앱 만들어 보기',
+      text: '고양이 터널, 장난감 구입하기',
       checked: false,
     },
   ]);
@@ -29,7 +30,7 @@ const App = () => {
     (text) => {
       const todo = {
         id: nextId.current,
-        text,
+        text: text,
         checked: false,
       };
       setTodos(todos.concat(todo));
@@ -38,18 +39,18 @@ const App = () => {
     [todos],
   );
 
-  const onRemove = useCallback(
+  const onDelete = useCallback(
     (id) => {
       setTodos(todos.filter((todo) => todo.id !== id));
     },
     [todos],
   );
 
-  const onToggle = useCallback(
+  const onChecked = useCallback(
     (id) => {
       setTodos(
         todos.map((todo) =>
-          id === todo.id ? { ...todo, checked: !todo.checked } : todo,
+          id == todo.id ? { ...todo, checked: !todo.checked } : todo,
         ),
       );
     },
@@ -57,10 +58,12 @@ const App = () => {
   );
 
   return (
-    <TodoTemplate>
-      <TodoInsert onInsert={onInsert} />
-      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
-    </TodoTemplate>
+    <div className="App">
+      <TodoTemplate>
+        <TodoInsert onInsert={onInsert} />
+        <TodoList todos={todos} onRemove={onDelete} onChecked={onChecked} />
+      </TodoTemplate>
+    </div>
   );
 };
 
