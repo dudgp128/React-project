@@ -33,9 +33,6 @@
             }
         }        
     }
-    &:nth-child(even){
-        background-color: lightgray;
-    }
 
     .remove{
         display: flex;
@@ -50,4 +47,14 @@
         }
     }
 
+}
+
+.TodoListItem-virtualized{
+    &:nth-child(even){
+        background-color: lightgray;
+    }
+    &+&{
+        border-top: 1px solid darkgray;
+    }
+    
 }
