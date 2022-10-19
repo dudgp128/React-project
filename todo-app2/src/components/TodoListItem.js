@@ -1,3 +1,4 @@
+import React from 'react';
 import './TodoListItem.scss';
 import cn from 'classnames';
 import {
@@ -24,4 +25,4 @@ const TodoListItem = ({ todo, onRemove, onChecked }) => {
     </div>
   );
 };
-export default TodoListItem;
+export default React.memo(TodoListItem);
