@@ -1,16 +1,17 @@
-import { useParams } from 'react';
-import { Router } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import Categories from '../components/Categories';
 import NewsList from '../components/NewsList';
 
-const NewsPage = () => {
-  const params = useParams;
+const NewsPage = ({ match }) => {
+  const params = useParams();
   const category = params.category || 'all';
 
   return (
-    <Router>
-      <Router path="/" element={<NewsList />} />
-      <Router path="/:category" element={<NewsList />} />
-    </Router>
+    <>
+      <Categories />
+      <NewsList category={category} />
+    </>
   );
 };
 
