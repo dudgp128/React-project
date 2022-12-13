@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
 
-const logger = createLogger;
+const logger = createLogger();
 
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
