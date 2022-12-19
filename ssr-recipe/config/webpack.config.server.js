@@ -1,5 +1,6 @@
 const paths = require("./paths");
 const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
+const nodeExternals = require("webpack-node-externals");
 
 // style files regexes
 const cssRegex = /\.css$/;
@@ -183,4 +184,9 @@ module.exports = {
   resolve: {
     modules: ["node_modules"],
   },
+  externals: [
+    nodeExternals({
+      allowlist: [/@bable/],
+    }),
+  ],
 };
