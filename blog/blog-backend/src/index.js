@@ -3,6 +3,10 @@ const Router = require('koa-router');
 
 const app = new Koa();
 const router = new Router();
+const api = require('./api');
+
+// api 라우트 적용
+router.use('/api', api.routes()); // => /api/test
 
 router.get('/', (ctx) => {
   ctx.body = '홈';
