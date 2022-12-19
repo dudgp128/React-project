@@ -1,12 +1,16 @@
 const paths = require("./paths");
 const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
 const nodeExternals = require("webpack-node-externals");
+const webpack = require("webpack");
+const getClientEnvironment = require("./env");
 
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -188,5 +192,8 @@ module.exports = {
     nodeExternals({
       allowlist: [/@bable/],
     }),
+  ],
+  plugins: [
+    new webpack.DefinedPlugin(env.stringified), // 환경 변수를 주입하기
   ],
 };
