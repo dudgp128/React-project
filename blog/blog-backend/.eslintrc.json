@@ -1,0 +1,17 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": ["eslint:recommended", "prettier"],
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        "no-unused-vars":"warn",  // 사용되지 않은 const값 오류->경고로 수정
+        "no-console":"off" // console.log를 사용할 것이므로 이 규칙을 비활성화
+    }
+}
