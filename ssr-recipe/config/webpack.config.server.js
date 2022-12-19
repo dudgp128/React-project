@@ -194,6 +194,6 @@ module.exports = {
     }),
   ],
   plugins: [
-    new webpack.DefinedPlugin(env.stringified), // 환경 변수를 주입하기
+    new webpack.DefinePlugin(env.stringified), // 환경 변수를 주입하기
   ],
 };
