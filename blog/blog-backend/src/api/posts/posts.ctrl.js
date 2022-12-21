@@ -26,7 +26,14 @@ export const write = async (ctx) => {
 };
 
 // 포스트 목록 조회 : GET /api/posts
-export const list = (ctx) => {};
+export const list = async (ctx) => {
+  try {
+    const posts = await Post.find().exec();
+    ctx.body = posts;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
 
 // 특정 포스트 조회 : GET /api/posts/:id
 export const read = (ctx) => {};
