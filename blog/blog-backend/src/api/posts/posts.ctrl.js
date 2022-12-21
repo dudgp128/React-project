@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import Post from '../../models/post';
+const { ObjectId } = mongoose.Types;
 
 /*
 {
@@ -7,6 +9,15 @@ import Post from '../../models/post';
   tag : ['태그1', '태그2']
 }
 */
+
+export const checkObjectId = (ctx, next) => {
+  const { id } = ctx.params;
+  if (!ObjectId.isValid(id)) {
+    ctx.status = 400;
+    return;
+  }
+  return next();
+};
 
 // 포스트 작성 : POST /api/posts
 export const write = async (ctx) => {
