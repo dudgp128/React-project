@@ -36,7 +36,19 @@ export const list = async (ctx) => {
 };
 
 // 특정 포스트 조회 : GET /api/posts/:id
-export const read = (ctx) => {};
+export const read = async (ctx) => {
+  const { id } = ctx.params;
+  try {
+    const post = await Post.findById(id).exec();
+    if (!post) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.body = post;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
 
 // 특정 포스트 삭제 : DELETE api/posts/:id
 export const remove = (ctx) => {};
