@@ -54,8 +54,20 @@ export const write = async (ctx) => {
 
 // 포스트 목록 조회 : GET /api/posts
 export const list = async (ctx) => {
+  // 값이 주어지지 않았다면 1을 기본으로 사용
+  const page = parseInt(ctx.query.page || '1', 10);
+
+  if (page < 1) {
+    ctx.status = 400;
+    return;
+  }
+
   try {
-    const posts = await Post.find().sort({ _id: -1 }).limit(10).exec();
+    const posts = await Post.find()
+      .sort({ _id: -1 })
+      .limit(10)
+      .skip((page - 1) * 10)
+      .exec();
     ctx.body = posts;
   } catch (error) {
     ctx.throw(500, error);
