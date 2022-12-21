@@ -55,7 +55,7 @@ export const write = async (ctx) => {
 // 포스트 목록 조회 : GET /api/posts
 export const list = async (ctx) => {
   try {
-    const posts = await Post.find().sort({ _id: -1 }).exec();
+    const posts = await Post.find().sort({ _id: -1 }).limit(10).exec();
     ctx.body = posts;
   } catch (error) {
     ctx.throw(500, error);
