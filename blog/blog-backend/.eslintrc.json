@@ -5,10 +5,13 @@
         "es2021": true
     },
     "extends": ["eslint:recommended", "prettier"],
-    "overrides": [
-    ],
+    "globals": {
+        "Atomics" : "readonly",
+        "SharedArrayBuffer":"readonly"
+    },
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "rules": {
         "no-unused-vars":"warn",  // 사용되지 않은 const값 오류->경고로 수정
