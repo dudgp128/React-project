@@ -67,13 +67,18 @@ export const list = async (ctx) => {
       .sort({ _id: -1 })
       .limit(10)
       .skip((page - 1) * 10)
+      .lean() // .lean() :  mongoose 문서 인스턴스의 형태의 데이터를 JSON 형태로 조회 가능
       .exec();
 
     const postCount = await Post.countDocuments().exec();
 
     ctx.set('Last-Page', Math.ceil(postCount / 10));
 
-    ctx.body = posts;
+    ctx.body = posts.map((post) => ({
+      ...post,
+      body:
+        post.body.length < 200 ? post.body : `${post.body.slice(0, 200)}...`,
+    }));
   } catch (error) {
     ctx.throw(500, error);
   }
