@@ -51,7 +51,15 @@ export const read = async (ctx) => {
 };
 
 // 특정 포스트 삭제 : DELETE api/posts/:id
-export const remove = (ctx) => {};
+export const remove = async (ctx) => {
+  const { id } = ctx.params;
+  try {
+    await Post.findByIdAndRemove(id).exec();
+    ctx.status = 204; // 204 : No Content - 성공했지만, 응답 데이터는 없음
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
 
 // 포스트 수정(특정 필드 변경) : PATCH /api/posts/:id
 export const update = (ctx) => {};
