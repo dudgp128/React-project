@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
+import Joi from '../../../node_modules/joi/lib/index';
 import Post from '../../models/post';
+
 const { ObjectId } = mongoose.Types;
 
 /*
@@ -21,6 +23,20 @@ export const checkObjectId = (ctx, next) => {
 
 // 포스트 작성 : POST /api/posts
 export const write = async (ctx) => {
+  const schema = Joi.object().keys({
+    // 객체가 다음 필드를 가지고 있음을 검증
+    title: Joi.string().required(), // required() : 필수 항목
+    body: Joi.string().required(),
+    tags: Joi.array().items(Joi.string()).required(),
+  });
+
+  //검증후, 검증 실패 경우 에러 처리
+  const result = schema.validate(ctx.request.body);
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
   const { title, body, tags } = ctx.request.body;
   const post = new Post({
     title,
@@ -75,6 +91,20 @@ export const remove = async (ctx) => {
 // 포스트 수정(특정 필드 변경) : PATCH /api/posts/:id
 export const update = async (ctx) => {
   const { id } = ctx.params;
+  const schema = Joi.object().keys({
+    title: Joi.string(),
+    body: Joi.string(),
+    tags: Joi.array().items(Joi.string()),
+  });
+
+  //검증후, 검증 실패 경우 에러 처리
+  const result = schema.validate(ctx.request.body);
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+
   try {
     const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
       new: true, // update data return (false - before update data return)
