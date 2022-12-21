@@ -1,8 +1,8 @@
-const Router = require('koa-router');
-const api = new Router();
+import Router from 'koa-router';
+import posts from './posts';
 
-const posts = require('./posts');
+const api = new Router();
 
 api.use('/posts', posts.routes()); // posts 라우트 적용
 
-module.exports = api;
+export default api;

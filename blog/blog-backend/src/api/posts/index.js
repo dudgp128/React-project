@@ -1,12 +1,13 @@
-const Router = require('koa-router');
+import Router from 'koa-router';
+import * as postsCtrl from './posts.ctrl';
+
 const posts = new Router();
-const postCtrl = require('./posts.ctrl');
 
-posts.get('/', postCtrl.list); // (라우트의 경로, 해당 라우트에 적용할 미들웨어 함수)
-posts.post('/', postCtrl.write);
-posts.get('/:id', postCtrl.read);
-posts.delete('/:id', postCtrl.remove);
-posts.put('/:id', postCtrl.replace);
-posts.patch('/:id', postCtrl.update);
+posts.get('/', postsCtrl.list); // (라우트의 경로, 해당 라우트에 적용할 미들웨어 함수)
+posts.post('/', postsCtrl.write);
+posts.get('/:id', postsCtrl.read);
+posts.delete('/:id', postsCtrl.remove);
+posts.put('/:id', postsCtrl.replace);
+posts.patch('/:id', postsCtrl.update);
 
-module.exports = posts;
+export default posts;
