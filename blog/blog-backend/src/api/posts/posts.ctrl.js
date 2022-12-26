@@ -12,13 +12,25 @@ const { ObjectId } = mongoose.Types;
 }
 */
 
-export const checkObjectId = (ctx, next) => {
+export const getPostById = async (ctx, next) => {
   const { id } = ctx.params;
   if (!ObjectId.isValid(id)) {
     ctx.status = 400;
     return;
   }
-  return next();
+  try {
+    const post = await Post.findById(id);
+
+    if (!post) {
+      ctx.status = 404; // Not Found
+      return;
+    }
+    ctx.state.post = post;
+
+    return next();
+  } catch (error) {
+    ctx.throw(500, error);
+  }
 };
 
 // 포스트 작성 : POST /api/posts
@@ -87,17 +99,7 @@ export const list = async (ctx) => {
 
 // 특정 포스트 조회 : GET /api/posts/:id
 export const read = async (ctx) => {
-  const { id } = ctx.params;
-  try {
-    const post = await Post.findById(id).exec();
-    if (!post) {
-      ctx.status = 404;
-      return;
-    }
-    ctx.body = post;
-  } catch (error) {
-    ctx.throw(500, error);
-  }
+  ctx.body = ctx.state.post;
 };
 
 // 특정 포스트 삭제 : DELETE api/posts/:id
