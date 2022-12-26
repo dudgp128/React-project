@@ -21,12 +21,16 @@ mongoose
 const app = new Koa();
 const router = new Router();
 import api from './api';
+import jwtMiddleware from './lib/jwtMiddleware';
 
 // api 라우트 적용
 router.use('/api', api.routes()); // => /api/test
 
 // 라우터 적용 전에 bodyparser 사용하기
 app.use(bodyParser());
+
+// 라우터 적용 전에 jwMiddleware를 적용하기
+app.use(jwtMiddleware);
 
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
