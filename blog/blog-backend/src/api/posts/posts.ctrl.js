@@ -74,7 +74,7 @@ export const write = async (ctx) => {
   }
 };
 
-// 포스트 목록 조회 : GET /api/posts
+// 포스트 목록 조회 : GET /api/posts?username=&tag=&page=
 export const list = async (ctx) => {
   // 값이 주어지지 않았다면 1을 기본으로 사용
   const page = parseInt(ctx.query.page || '1', 10);
@@ -84,15 +84,23 @@ export const list = async (ctx) => {
     return;
   }
 
+  const { tag, username } = ctx.query;
+
+  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음.
+  const query = {
+    ...(username ? { 'user.username': username } : {}),
+    ...(tag ? { tags: tag } : {}),
+  };
+
   try {
-    const posts = await Post.find()
+    const posts = await Post.find(query)
       .sort({ _id: -1 })
       .limit(10)
       .skip((page - 1) * 10)
       .lean() // .lean() :  mongoose 문서 인스턴스의 형태의 데이터를 JSON 형태로 조회 가능
       .exec();
 
-    const postCount = await Post.countDocuments().exec();
+    const postCount = await Post.countDocuments(query).exec();
 
     ctx.set('Last-Page', Math.ceil(postCount / 10));
 
