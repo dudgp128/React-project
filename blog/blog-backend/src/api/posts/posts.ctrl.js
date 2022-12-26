@@ -33,6 +33,15 @@ export const getPostById = async (ctx, next) => {
   }
 };
 
+export const checkOwnPost = async (ctx, next) => {
+  const { user, post } = ctx.state;
+  if (post.user._id.toString() !== user._id) {
+    ctx.status = 403;
+    return;
+  }
+  return next();
+};
+
 // 포스트 작성 : POST /api/posts
 export const write = async (ctx) => {
   const schema = Joi.object().keys({
