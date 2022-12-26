@@ -8,7 +8,11 @@ const jwtMiddleware = (ctx, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    ctx.state.user = {
+      _id: decoded._id,
+      username: decoded.username,
+    };
+    //console.log(decoded);
     return next();
   } catch (error) {
     // 토큰 검증 실패
