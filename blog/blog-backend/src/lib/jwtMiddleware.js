@@ -1,7 +1,8 @@
 // 사용자의 토큰을 확인하 후 검증하는 작업
 import jwt from 'jsonwebtoken';
+import User from '../models/user';
 
-const jwtMiddleware = (ctx, next) => {
+const jwtMiddleware = async (ctx, next) => {
   const token = ctx.cookies.get('access_token');
 
   if (!token) return next();
@@ -12,6 +13,18 @@ const jwtMiddleware = (ctx, next) => {
       _id: decoded._id,
       username: decoded.username,
     };
+
+    // 토큰 남은 유효기간이 3.5일 미만이면 재발급
+    const now = Math.floor(Date.now() / 1000);
+    if (decoded.exp - now < 60 * 60 ** 24 * 3.5) {
+      const user = await User.findById(decoded._id);
+      const token = user.generateToken();
+      ctx.cookies.set('access_token', token, {
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        httpOnly: true,
+      });
+    }
+
     //console.log(decoded);
     return next();
   } catch (error) {
