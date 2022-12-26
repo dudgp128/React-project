@@ -47,7 +47,34 @@ export const register = async (ctx) => {
   }
 };
 
-export const login = async (ctx) => {};
+export const login = async (ctx) => {
+  const { username, password } = ctx.request.body;
+
+  if (!username || !password) {
+    ctx.status = 401; // Unauthorized
+    return;
+  }
+  try {
+    // 사용자 데이터 찾기
+    const user = await User.findByUsername(username);
+
+    if (!user) {
+      ctx.status = 400;
+      return;
+    }
+
+    const valid = await user.checkPassword(password);
+
+    if (!valid) {
+      ctx.status = 400;
+      return;
+    }
+
+    ctx.body = user.serialize();
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
 
 export const check = async (ctx) => {};
 
