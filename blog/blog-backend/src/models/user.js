@@ -23,5 +23,12 @@ UserSchema.statics.findByUsername = function (username) {
   return this.findOne({ username });
 };
 
+// hashedPassword 필드가 응답되지 않도록 데이터를 JSON으로 변환후, 필드 지우기
+UserSchema.methods.serialize = function () {
+  const data = this.toJSON();
+  delete data.hashedPassword;
+  return data;
+};
+
 const User = mongoose.model('User', UserSchema);
 export default User;
