@@ -42,6 +42,14 @@ export const register = async (ctx) => {
 
     // 응답할 데이터에서 hashedPassword 필드 제거
     ctx.body = user.serialize();
+
+    // 회원가입에 성공했을때 토큰을 사용자에게 전달하기
+    const token = user.generateToken();
+
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
+      httpOnly: true,
+    });
   } catch (error) {
     ctx.throw(500, error);
   }
@@ -71,6 +79,14 @@ export const login = async (ctx) => {
     }
 
     ctx.body = user.serialize();
+
+    // 로그인에 성공했을때 토큰을 사용자에게 전달하기
+    const token = user.generateToken();
+
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
+      httpOnly: true,
+    });
   } catch (error) {
     ctx.throw(500, error);
   }
