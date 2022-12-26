@@ -18,5 +18,10 @@ UserSchema.methods.checkPassword = async function (password) {
   return result;
 };
 
+// username으로 데이터 찾기, static 함수에서의 this는 모델(User)를 가리킴.
+UserSchema.statics.findByUsername = function (username) {
+  return this.findOne({ username });
+};
+
 const User = mongoose.model('User', UserSchema);
 export default User;
