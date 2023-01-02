@@ -1,5 +1,12 @@
-const RegisterPage=()=>{
-    return <div> 회원가입 </div>
-}
+import AuthForm from '../components/auth/AuthForm';
+import AuthTemplate from '../components/auth/AuthTemplate';
 
-export default RegisterPage
+const RegisterPage = () => {
+  return (
+    <AuthTemplate>
+      <AuthForm />
+    </AuthTemplate>
+  );
+};
+
+export default RegisterPage;

@@ -1,5 +1,12 @@
-const LoginPage=()=>{
-    return <div> 로그인 </div>
-}
+import AuthForm from '../components/auth/AuthForm';
+import AuthTemplate from '../components/auth/AuthTemplate';
 
-export default LoginPage
+const LoginPage = () => {
+  return (
+    <AuthTemplate>
+      <AuthForm />
+    </AuthTemplate>
+  );
+};
+
+export default LoginPage;
