@@ -13,7 +13,7 @@ export const changeField = createAction(
   }),
 );
 
-export const initializeFrom = createAction(INITIALIZE_FORM, (form) => form);
+export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 // register / login
 
 const initialState = {
