@@ -74,6 +74,7 @@ const auth = handleActions(
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
+      authError: null, // 폼 전환시 회원 인증 에러 초기화
     }),
 
     // 회원가입 성공
