@@ -39,7 +39,25 @@ const RegisterForm = () => {
 
   useEffect(() => dispatch(initializeForm('register')), [dispatch]);
 
-  return <AuthForm type="register" form={form} onChange={onChange} />;
+  // register success/failure
+  useEffect(() => {
+    if (authError) {
+      console.log('error occurred', authError);
+      return;
+    }
+    if (auth) {
+      console.log('register success', auth);
+    }
+  }, [authError, auth]);
+
+  return (
+    <AuthForm
+      type="register"
+      form={form}
+      onChange={onChange}
+      onSubmit={onSubmit}
+    />
+  );
 };
 
 export default RegisterForm;
