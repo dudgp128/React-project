@@ -52,13 +52,13 @@ const textMap = {
   register: '회원가입',
 };
 
-const AuthForm = ({ type, form, onChange }) => {
+const AuthForm = ({ type, form, onChange, onSubmit }) => {
   const text = textMap[type];
 
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
-      <form>
+      <form onSubmit={onSubmit}>
         <StyledInput
           onChange={onChange}
           value={form.username}
