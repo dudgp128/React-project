@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
 import { check } from '../../modules/user';
+import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
 
 const LoginForm = () => {
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -47,6 +48,14 @@ const LoginForm = () => {
       dispatch(check());
     }
   }, [authError, auth, dispatch]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   return (
     <AuthForm
