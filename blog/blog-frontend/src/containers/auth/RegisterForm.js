@@ -2,13 +2,16 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthForm from '../../components/auth/AuthForm';
 import { initializeForm, changeField, register } from '../../modules/auth';
+import { check } from '../../modules/user';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   // useSelector : connect 대신 redux 상태 조회 가능
-  const { form, auth, authError } = useSelector(({ auth }) => ({
+  const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
     form: auth.register,
     auth: auth.auth,
     authError: auth.authError,
+    user: user.user,
   }));
 
   // useDispatch : 컴포넌트에서 스토어의 내장 함수 dispatch 사용
@@ -37,7 +40,9 @@ const RegisterForm = () => {
     dispatch(register({ username, password }));
   };
 
-  useEffect(() => dispatch(initializeForm('register')), [dispatch]);
+  useEffect(() => {
+    dispatch(initializeForm('register'));
+  }, [dispatch]);
 
   // register success/failure
   useEffect(() => {
@@ -47,8 +52,17 @@ const RegisterForm = () => {
     }
     if (auth) {
       console.log('register success', auth);
+      dispatch(check());
     }
-  }, [authError, auth]);
+  }, [authError, auth, dispatch]);
+
+  const navigate = useNavigate();
+  // user값이 잘 설정되었는지 확인하기
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [navigate, user]);
 
   return (
     <AuthForm
