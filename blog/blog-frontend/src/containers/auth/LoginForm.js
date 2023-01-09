@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
+import { check } from '../../modules/user';
 
 const LoginForm = () => {
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -35,6 +36,17 @@ const LoginForm = () => {
   useEffect(() => {
     dispatch(initializeForm('login'));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (authError) {
+      console.log('error occurred', authError);
+      return;
+    }
+    if (auth) {
+      console.log('login success', auth);
+      dispatch(check());
+    }
+  }, [authError, auth, dispatch]);
 
   return (
     <AuthForm
