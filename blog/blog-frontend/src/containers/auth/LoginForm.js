@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, login } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
@@ -6,6 +6,8 @@ import { check } from '../../modules/user';
 import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
 
 const LoginForm = () => {
+  const [error, setError] = useState(null);
+
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
     form: auth.login,
     auth: auth.auth,
@@ -40,7 +42,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (authError) {
-      console.log('error occurred', authError);
+      setError('로그인 실패');
       return;
     }
     if (auth) {
@@ -63,6 +65,7 @@ const LoginForm = () => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      error={error}
     />
   );
 };
