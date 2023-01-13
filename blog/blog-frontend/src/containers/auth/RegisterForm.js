@@ -72,7 +72,6 @@ const RegisterForm = () => {
     }
 
     if (auth) {
-      console.log('register success', auth);
       dispatch(check());
     }
   }, [authError, auth, dispatch]);

@@ -46,7 +46,6 @@ const LoginForm = () => {
       return;
     }
     if (auth) {
-      console.log('login success', auth);
       dispatch(check());
     }
   }, [authError, auth, dispatch]);
