@@ -89,10 +89,28 @@ const TagBox = () => {
     setInput(e.target.value);
   }, []);
 
+  const insertTag = useCallback(
+    (tag) => {
+      if (!tag) return;
+      if (localTags.includes(tag)) return;
+      setLocalTags([...localTags, tag]);
+    },
+    [localTags],
+  );
+
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      insertTag(input.trim());
+      setInput('');
+    },
+    [input, insertTag],
+  );
+
   return (
     <TagBoxBlock>
       <h4>태그</h4>
-      <TagForm>
+      <TagForm onSubmit={onSubmit}>
         <input
           placeholder="태그를 입력하세요"
           value={input}
