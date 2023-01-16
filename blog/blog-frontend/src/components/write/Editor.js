@@ -29,12 +29,12 @@ const QuillWrapper = styled.div`
     line-height: 1.5;
   }
 
-  .ql-editor .ql-blank::before {
+  .ql-editor.ql-blank::before {
     left: 0px;
   }
 `;
 
-const Editor = () => {
+const Editor = ({ title, body, onChangeField }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
 
@@ -51,7 +51,15 @@ const Editor = () => {
         ],
       },
     });
-  }, []);
+
+    // quill에 text-change 이벤트 핸들러 등록 (https://quilljs.com/docs/api/#events)
+    const quill = quillInstance.current;
+    quill.on('text-change', (delta, oldDelta, source) => {
+      if (source === 'user') {
+        onChangeField({ key: 'body', value: quill.root.innerHTML });
+      }
+    });
+  }, [onChangeField]);
 
   return (
     <EditorBlock>
