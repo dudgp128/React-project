@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import WriteActionButtons from '../../components/write/WriteActionButtons';
 import { writePost } from '../../modules/write';
+import { useEffect } from 'react';
 
 const WriteActionButtonsContainer = () => {
   const navigate = useNavigate();
@@ -21,6 +22,18 @@ const WriteActionButtonsContainer = () => {
   const onCancel = () => {
     navigate(-1);
   };
+
+  // post success/failure
+  useEffect(() => {
+    if (post) {
+      const { _id, user } = post;
+      console.log(user.username, _id);
+      navigate(`/${user.username}/${_id}`);
+    }
+    if (postError) {
+      console.log(postError);
+    }
+  }, [postError, post, navigate]);
 
   return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
 };
