@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import WriteActionButtons from '../../components/write/WriteActionButtons';
 import { writePost } from '../../modules/write';
 
 const WriteActionButtonsContainer = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { title, body, tags, post, postError } = useSelector(({ write }) => ({
     title: write.title,
@@ -16,6 +18,10 @@ const WriteActionButtonsContainer = () => {
     dispatch(writePost({ title, body, tags }));
   };
 
-  return <WriteActionButtons onPublish={onPublish} />;
+  const onCancel = () => {
+    navigate(-1);
+  };
+
+  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
 };
 export default WriteActionButtonsContainer;
