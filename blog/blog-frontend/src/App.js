@@ -1,10 +1,9 @@
-import './App.css';
 import { Route, Routes } from 'react-router-dom';
+import PostListPage from './pages/PostListPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import WritePage from './pages/WritePage';
 import PostPage from './pages/PostPage';
-import RegisterPage from './pages/RegisterPage';
-import PostListPage from './pages/PostListPage';
 
 const App = () => {
   return (
@@ -13,12 +12,9 @@ const App = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/write" element={<WritePage />} />
-      <Route path="/@:username">
-        <Route index element={<PostListPage />} />
-        <Route path=":postId" element={<PostPage />} />
-      </Route>
+      <Route path="/:username" element={<PostListPage />} />
+      <Route path="/:username/:postid" element={<PostPage />} />
     </Routes>
   );
 };
-
 export default App;
